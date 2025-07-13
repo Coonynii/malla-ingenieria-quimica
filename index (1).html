@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Malla Interactiva Ingeniería Química</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f6f6f6;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .semester {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 10px;
+      min-width: 250px;
+      flex: 1 1 300px;
+    }
+
+    .semester h2 {
+      text-align: center;
+      font-size: 1.2em;
+      margin-top: 0;
+    }
+
+    .course {
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .course:hover {
+      transform: scale(1.02);
+    }
+
+    .completed {
+      text-decoration: line-through;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Malla Interactiva Ingeniería Química</h1>
+<div class="grid" id="malla"></div>
+
+<script>
+  const data = {"s1": [["Cálculo I", "10138", "", 0, "MAT", [], ""], ["Álgebra I", "10139", "", 0, "MAT", [], ""], ["Física I para Ingeniería ", "10140", "", 0, "FIS", [], ""], ["Introducción a la Ingeniería", "10141", "", 0, "PC", [], ""], ["Química general ", "10149", "", 0, "QUI", [], ""]], "s2": [["Cálculo II", "10142", "", 0, "MAT", ["10138"], ""], ["Álgebra II", "10143", "", 0, "MAT", ["10139"], ""], ["Física II para Ingeniería", "10144", "", 0, "FIS", ["10140"], ""], ["Fundamentos de Programación para la Ingeniería", "10145", "", 0, "PC", ["10141"], ""], ["Fundamentos de Ingeniería Química ", "19101", "", 0, "PC", ["10141"], ""]], "s3": [["Electricidad y Magnetismo para Ingeniería", "10156", "", 0, "FIS", ["10142", "10144"], ""], ["Fundamentos de Economía para Ingeniería", "10157", "", 0, "MAT", ["10138"], ""], ["Análisis Estadístico para Ingeniería ", "10158", "", 0, "MAT", ["10142"], ""], ["Cálculo Avanzado para Ingeniería de Procesos", "10160", "", 0, "MAT", ["10142"], ""], ["Fisicoquímica I para Ingeniería", "19105", "", 0, "QUI", ["10142", "10144", "19101"], ""], ["Técnicas de Laboratorio Químico ", "19106", "", 0, "QUI", ["10149"], ""]], "s4": [["Inglés I", "10130", "", 0, "HUM", [], ""], ["Taller de Diseño en Ingeniería", "10148", "", 0, "MAT", ["10145"], ""], ["Ecuaciones Diferenciales para Ingeniería", "10155", "", 0, "MAT", ["10142", "10143"], ""], ["Balances de Materia y Energía ", "19108", "", 0, "MAT", ["10160", "19105"], ""], ["Química Orgánica I", "19109", "", 0, "QUI", ["19106"], ""], ["Fisicoquímica II para Ingeniería", "19110", "", 0, "QUI", ["19105"], ""]], "s5": [["Inglés II", "10131", "", 0, "HUM", ["10130"], ""], ["Finanzas para Ingeniería ", "10162", "", 0, "MAT", ["10148"], ""], ["Termodinámica de Ingeniería de Procesos", "19111", "", 0, "QUI", ["19110", "19108"], ""], ["Teoría de Sistemas ", "19112", "", 0, "QUI", ["19108"], ""], ["Química Orgánica II", "19113", "", 0, "QUI", ["19109"], ""], ["Métodos de Cálculo en Ingeniería ", "19115", "", 0, "MAT", ["19108", "10145", "10144"], ""]], "s6": [["Inglés III", "10132", "", 0, "HUM", ["10131"], ""], ["Administración de Empresas", "10161", "", 0, "MAT", ["10162"], ""], ["Fenómenos de Transporte", "19116", "", 0, "MAT", ["19111", "10155"], ""], ["Química Inorgánica ", "19117", "", 0, "QUI", ["19110"], ""], ["Legislación Laboral y Seguridad Industrial ", "19118", "", 0, "PC", ["19112"], ""], ["Fundamentos de Ingeniería Ambiental ", "19120", "", 0, "QUI", ["19111"], ""]], "s7": [["Inglés IV", "10133", "", 0, "HUM", ["10132"], ""], ["Mecánica de Fluidos ", "19121", "", 0, "FIS", ["19116"], ""], ["Transferencia de Calor ", "19122", "", 0, "QUI", ["19116"], ""], ["Electivo I", "19123", "", 0, "EL", [], ""], ["Ingeniería Económica", "19124", "", 0, "MAT", ["10161"], ""]], "s8": [["Transferencia de Masas I", "19125", "", 0, "QUI", ["19121", "19122"], ""], ["Diseño de Reactores I", "19126", "", 0, "QUI", ["19121", "19122"], ""], ["Dirección y Gestión de Empresas ", "19127", "", 0, "MAT", ["19124"], ""], ["Electivo II", "19128", "", 0, "EL", ["19123"], ""], ["Electivo III", "19129", "", 0, "EL", ["19123"], ""]], "s9": [["Transferencia de Masa II", "19130", "", 0, "QUI", ["19125"], ""], ["Diseño de Reactores II", "19131", "", 0, "QUI", ["19126"], ""], ["Tecnología de Materiales con Aplicaciones de Diseño ", "19132", "", 0, "QUI", ["19126"], ""], ["Simulación de Procesos ", "19133", "", 0, "QUI", ["19125"], ""], ["Evaluación de Proyectos", "19141", "", 0, "ICQ", ["19125", "19126", "19127", "19128", "19129"], ""]], "s10": [["Proyectos", "19135", "", 0, "ICQ", ["19141"], ""], ["Tecnología y Gestión Energética ", "19136", "", 0, "QUI", ["19125"], ""], ["Dinámica y Control de Procesos", "19137", "", 0, "FIS", ["19126", "19125"], ""], ["Diseño Experimental", "19138", "", 0, "QUI", ["19132"], ""], ["Electivo IV", "19139", "", 0, "EL", ["19129"], ""]], "s11": [["Trabajo de Titulación", "19140", "", 0, "ICQ", ["19135"], ""]]};
+  const colors = {"MAT": ["#415673", "Matemáticas"], "PC": ["#d7c28d", "Plan Común"], "FIS": ["#6e97ce", "Física"], "QUI": ["#f0d06e", "Química"], "HUM": ["#acb2be", "Inglés"], "EL": ["#ebd7a4", "Electivos"], "ICQ": ["#51816a", "Ingeniería Quimica"]};
+  const storageKey = "ramos_aprobados_INQ";
+
+  let aprobados = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+  const mallaContainer = document.getElementById("malla");
+
+  for (let semestre in data) {
+    const semDiv = document.createElement("div");
+    semDiv.className = "semester";
+
+    const h2 = document.createElement("h2");
+    h2.textContent = semestre.toUpperCase().replace("S", "Semestre ");
+    semDiv.appendChild(h2);
+
+    data[semestre].forEach(ramo => {
+      const [nombre, codigo, , , area] = ramo;
+      const div = document.createElement("div");
+      div.className = "course";
+      div.textContent = nombre;
+      div.dataset.codigo = codigo;
+      div.style.background = colors[area]?.[0] || "#ccc";
+      if (aprobados.includes(codigo)) div.classList.add("completed");
+
+      div.onclick = () => {
+        div.classList.toggle("completed");
+        if (aprobados.includes(codigo)) {
+          aprobados = aprobados.filter(c => c !== codigo);
+        } else {
+          aprobados.push(codigo);
+        }
+        localStorage.setItem(storageKey, JSON.stringify(aprobados));
+      };
+
+      semDiv.appendChild(div);
+    });
+
+    mallaContainer.appendChild(semDiv);
+  }
+</script>
+
+</body>
+</html>
